@@ -26,15 +26,16 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     
     this.isFetching = true;
-    this.postsService.fetchPosts().subscribe(posts => {
-      this.isFetching = false;
-      this.loadedPosts = posts;
-    }, 
-    error => {
-      this.error = error.error.error;
-      console.log(error);
-      
-    });
+    this.postsService.fetchPosts().subscribe(
+      posts => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      }, 
+      error => {
+        this.isFetching = false;
+        this.error = error.message;
+      }
+    );
   }
 
   onCreatePost(postData: { title: string; content: string }) {
@@ -45,14 +46,17 @@ export class AppComponent implements OnInit, OnDestroy {
   onFetchPosts() {
     // Send Http request
     this.isFetching = true;
-    this.postsService.fetchPosts().subscribe(posts => {
-      this.isFetching = false;
-      this.loadedPosts = posts;
-    }, 
-    error => {
-      this.error = error.message;
-      console.log(error);     
-    });
+    this.postsService.fetchPosts().subscribe(
+      posts => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      }, 
+      error => {
+        this.isFetching = false;
+        this.error = error.message;
+        console.log(error);     
+      }
+    );
   }
 
   onClearPosts() {
@@ -60,6 +64,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.postsService.deletePosts().subscribe(() => {
       this.loadedPosts = [];
     });
+  }
+
+  onHandleError() {
+    this.error = null;
   }
 
   ngOnDestroy(): void {
