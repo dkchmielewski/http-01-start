@@ -32,7 +32,7 @@ export class PostsService {
     fetchPosts() {
         return this.http.get<{ [key: string]: Post }>('https://ng-complete-guide-13a4a-default-rtdb.firebaseio.com/posts.json')
         .pipe(
-            map((responseData) => {
+            map(responseData => {
                 const postsArray: Post[] = [];
                 for(const key in responseData) {
                     if(responseData.hasOwnProperty(key)) {
